@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .calculator-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            width: 320px;
+        }
+
+        .display {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 290px;
+            font-size: 2.5em;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: right;
+            margin-bottom: 20px;
+            min-height: 60px;
+            word-wrap: break-word;
+            word-break: break-all;
+            font-weight: bold;
+        }
+
+        .buttons-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        button {
+            padding: 20px;
+            font-size: 1.5em;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .number-btn {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .number-btn:hover {
+            background: #e0e0e0;
+        }
+
+        .operator-btn {
+            background: #667eea;
+            color: white;
+        }
+
+        .operator-btn:hover {
+            background: #5568d3;
+        }
+
+        .equals-btn {
+            background: #48bb78;
+            color: white;
+            grid-column: span 2;
+        }
+
+        .equals-btn:hover {
+            background: #38a169;
+        }
+
+        .clear-btn {
+            background: #f56565;
+            color: white;
+            grid-column: span 2;
+        }
+
+        .clear-btn:hover {
+            background: #e53e3e;
+        }
+
+     
+        @media (max-width: 768px) {
+            body {
+                padding: 20px;
+            }
+
+            .calculator-container {
+                width: 90vw;
+                max-width: 400px;
+                padding: 15px;
+            }
+
+            .display {
+                width: 100%;
+                font-size: 2em;
+                padding: 15px;
+                margin-bottom: 15px;
+                min-height: 50px;
+            }
+
+            button {
+                padding: 15px;
+                font-size: 1.3em;
+            }
+
+            .buttons-grid {
+                gap: 8px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .calculator-container {
+                width: 95vw;
+                max-width: 350px;
+                padding: 12px;
+                border-radius: 15px;
+            }
+
+            .display {
+                font-size: 1.5em;
+                padding: 12px;
+                margin-bottom: 12px;
+                min-height: 45px;
+            }
+
+            .buttons-grid {
+                gap: 6px;
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            button {
+                padding: 12px;
+                font-size: 1.1em;
+                border-radius: 8px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .calculator-container {
+                width: 98vw;
+                padding: 10px;
+            }
+
+            .display {
+                font-size: 1.3em;
+                padding: 10px;
+                margin-bottom: 10px;
+            }
+
+            .buttons-grid {
+                gap: 5px;
+            }
+
+            button {
+                padding: 10px;
+                font-size: 1em;
+            }
+        }
+
+      
+        @media (min-width: 1024px) {
+            .calculator-container {
+                width: 380px;
+                padding: 25px;
+            }
+
+            .display {
+                font-size: 2.8em;
+                padding: 25px;
+                margin-bottom: 25px;
+            }
+
+            button {
+                padding: 25px;
+                font-size: 1.6em;
+            }
+        }
+
+
+        @media (hover: none) and (pointer: coarse) {
+            button {
+                min-height: 44px;
+                min-width: 44px;
+            }
+
+            button:active {
+                transform: scale(0.95);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator-container">
+        <input type="text" id="displayOperators" class="display">
+        
+        <div class="buttons-grid">
+            <button class="clear-btn" onclick="document.getElementById('displayOperators').value = ''">C</button>
+            <button class="operator-btn" onclick="addOperator('/')">÷</button>
+            <button class="operator-btn" onclick="addOperator('*')">×</button>
+
+            <button class="number-btn" onclick="document.getElementById('displayOperators').value += '7'">7</button>
+            <button class="number-btn" onclick="document.getElementById('displayOperators').value += '8'">8</button>
+            <button class="number-btn" onclick="document.getElementById('displayOperators').value += '9'">9</button>
+            <button class="operator-btn" onclick="addOperator('-')">-</button>
+
+            <button class="number-btn" onclick="document.getElementById('displayOperators').value += '4'">4</button>
+            <button class="number-btn" onclick="document.getElementById('displayOperators').value += '5'">5</button>
+            <button class="number-btn" onclick="document.getElementById('displayOperators').value += '6'">6</button>
+            <button class="operator-btn" onclick="addOperator('+')">+</button>
+
+            <button class="number-btn" onclick="document.getElementById('displayOperators').value += '1'">1</button>
+            <button class="number-btn" onclick="document.getElementById('displayOperators').value += '2'">2</button>
+            <button class="number-btn" onclick="document.getElementById('displayOperators').value += '3'">3</button>
+            <button class="number-btn" onclick="document.getElementById('displayOperators').value += '.'">.</button>
+
+            <button class="number-btn" onclick="document.getElementById('displayOperators').value += '0'" style="grid-column: span 2;">0</button>
+            <button class="equals-btn" onclick="try { document.getElementById('displayOperators').value = eval(document.getElementById('displayOperators').value); } catch(e) { document.getElementById('displayOperators').value = 'Error'; }">=</button>
+        </div>
+    </div>
+
+    <script src="./week4.js"></script>
+    
+    <script>
+
+        function addOperator(oper) {
+            const display = document.getElementById('displayOperators');
+            if (display.value !== '') {
+                display.value += oper;
+            }
+        }
+
+        
+        document.addEventListener('keydown', function(event) {
+            const display = document.getElementById('displayOperators');
+            const key = event.key;
+
+           
+            if (key >= '0' && key <= '9') {
+                display.value += key;
+                event.preventDefault();
+            }
+            
+            else if (key === '+') {
+                addOperator('+');
+                event.preventDefault();
+            }
+            else if (key === '-') {
+                addOperator('-');
+                event.preventDefault();
+            }
+            else if (key === '*') {
+                addOperator('*');
+                event.preventDefault();
+            }
+            else if (key === '/') {
+                addOperator('/');
+                event.preventDefault();
+            }
+            
+            else if (key === '.') {
+                display.value += '.';
+                event.preventDefault();
+            }
+           
+            else if (key === 'Enter' || key === '=') {
+                try {
+                    display.value = eval(display.value);
+                } catch(e) {
+                    display.value = 'Error';
+                }
+                event.preventDefault();
+            }
+           
+            else if (key === 'Escape' || key.toLowerCase() === 'c') {
+                display.value = '';
+                event.preventDefault();
+            }
+         
+            else if (key === 'Backspace') {
+                display.value = display.value.slice(0, -1);
+                event.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>
